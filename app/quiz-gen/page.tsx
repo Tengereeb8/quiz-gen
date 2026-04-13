@@ -1,8 +1,43 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { FileText, SparklesIcon } from "lucide-react";
+import { useState, ChangeEvent } from "react";
+import { createArticle } from "../functions/createArticle";
 
 export const QuizGenerator = () => {
+  const [article, setArticle] = useState("");
+  const [content, setContent] = useState("");
+
+  const getArticle = async () => {
+    if (!content.trim()) return;
+
+    // setIsLoading(true);
+    try {
+      const response = await createArticle(content);
+      setContent(response);
+    } catch (error) {
+      console.error("Error recognizing ingredients:", error);
+      setContent("An error occurred. Please try again.");
+    } finally {
+    }
+  };
+
+  const onChangeArticle = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setArticle(event.target.value);
+  };
+
+  const onChangeContent = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setContent(event.target.value);
+  };
+
+  console.log(article);
+
   return (
     <div className="bg-white  mt-12  p-7 rounded-lg w-214 h-110.5">
       <h1 className=" flex gap-2 font-semibold text-2xl items-center">
@@ -18,19 +53,24 @@ export const QuizGenerator = () => {
         <h1 className="flex mb-1 items-center gap-1 text-sm text-[#71717a]">
           <FileText className="size-4.75" /> Article Title
         </h1>
-        <Input placeholder="Enter a title for your article..."></Input>
+        <Input
+          value={article}
+          placeholder="Enter a title for your article..."
+          onChange={onChangeArticle}
+        />
       </div>
       <div className="mt-5">
         <h1 className="flex mb-1 items-center gap-1 text-sm text-[#71717a]">
           <FileText className="size-4.75" /> Article Content
         </h1>
-        <Input
-          placeholder="Paste your article content here..."
+        <Textarea
           className="h-30"
-        ></Input>
+          placeholder="Paste your article content here..."
+          onChange={onChangeContent}
+        />
       </div>
       <div className="flex mt-5 justify-end">
-        <Button className="bg-black text-white w-40 h-10 ">
+        <Button className="bg-black text-white w-40 h-10 " onClick={getArticle}>
           Generate Summary
         </Button>
       </div>
