@@ -5,23 +5,24 @@ import { Textarea } from "@/components/ui/textarea";
 import { FileText, SparklesIcon } from "lucide-react";
 import { useState, ChangeEvent } from "react";
 import { createArticle } from "../functions/createArticle";
+import { useRouter } from "next/navigation";
 
 export const QuizGenerator = () => {
   const [article, setArticle] = useState("");
   const [content, setContent] = useState("");
 
   const [summary, setSummary] = useState("");
+  const router = useRouter();
 
   const getArticle = async () => {
     if (!content.trim()) return;
     try {
-      const response = await createArticle(content);
-      setSummary(response);
+      const { id } = await createArticle(content, article);
+      router.push(`/summary/${id}`);
     } catch (error) {
-      setSummary("An error occurred. Please try again.");
+      console.error(error);
     }
   };
-
   const onChangeArticle = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {

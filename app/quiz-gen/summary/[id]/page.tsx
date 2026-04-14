@@ -76,3 +76,35 @@
 //     </div>
 //   );
 // };
+
+import { PrismaClient } from "@prisma/client";
+import { notFound } from "next/navigation";
+
+const prisma = new PrismaClient();
+
+export default async function SummaryPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const article = await prisma.article.findUnique({
+    where: { id: Number(params.id) },
+  });
+
+  if (!article) return notFound();
+
+  return (
+    <div className="max-w-2xl mx-auto mt-12 p-7 bg-white rounded-lg">
+      <h1 className="text-2xl font-semibold">{article.title}</h1>
+      <p className="mt-1 text-sm text-[#71717a]">
+        {new Date(article.createdAt).toLocaleDateString()}
+      </p>
+      <hr className="my-4" />
+      <h2 className="font-semibold text-lg mb-2">Summary</h2>
+      <p className="text-[#71717a] whitespace-pre-wrap">{article.summary}</p>
+      <a href="/" className="mt-6 inline-block text-sm underline">
+        ← Back
+      </a>
+    </div>
+  );
+}

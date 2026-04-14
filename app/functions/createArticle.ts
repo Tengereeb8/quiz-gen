@@ -17,5 +17,5 @@ export const createArticle = async (content: string, title: string) => {
   });
   const data = await response.json();
   if (!response.ok) throw new Error(data.error);
-  return data; // { id, summary }
+  return data;
 };
