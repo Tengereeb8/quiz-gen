@@ -2,7 +2,7 @@ import { GoogleGenAI } from "@google/genai";
 
 export async function POST(req: Request) {
   try {
-    const { prompt } = await req.json();
+    const { content } = await req.json();
 
     const ai = new GoogleGenAI({
       apiKey: process.env.GEMINI_API_KEY!,
@@ -10,18 +10,15 @@ export async function POST(req: Request) {
 
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: prompt,
+      contents: `Please provide a concise summary of the following article: ${content}`,
     });
 
-    let image = null;
+    const text =
+      response.candidates?.[0]?.content?.parts
+        ?.map((p) => p.text ?? "")
+        .join("") ?? "";
 
-    for (const part of response?.candidates?.[0]?.content?.parts || []) {
-      if (part.inlineData) {
-        image = part.inlineData.data;
-      }
-    }
-
-    return Response.json({ image });
+    return Response.json({ result: text });
   } catch (error) {
     console.error(error);
 

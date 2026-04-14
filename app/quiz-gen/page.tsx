@@ -10,17 +10,15 @@ export const QuizGenerator = () => {
   const [article, setArticle] = useState("");
   const [content, setContent] = useState("");
 
+  const [summary, setSummary] = useState("");
+
   const getArticle = async () => {
     if (!content.trim()) return;
-
-    // setIsLoading(true);
     try {
       const response = await createArticle(content);
-      setContent(response);
+      setSummary(response);
     } catch (error) {
-      console.error("Error recognizing ingredients:", error);
-      setContent("An error occurred. Please try again.");
-    } finally {
+      setSummary("An error occurred. Please try again.");
     }
   };
 
@@ -65,6 +63,7 @@ export const QuizGenerator = () => {
         </h1>
         <Textarea
           className="h-30"
+          value={content}
           placeholder="Paste your article content here..."
           onChange={onChangeContent}
         />
