@@ -88,7 +88,7 @@ export default async function SummaryPage({
   params: { id: string };
 }) {
   const article = await prisma.article.findUnique({
-    where: { id: Number(params.id) },
+    where: { id: params.id },
   });
 
   if (!article) return notFound();

@@ -1,12 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -15,25 +8,22 @@ datasource db {
 }
 
 model Article {
-  id        String   @id @default(cuid()) 
+  id        String   @id @default(cuid())
   title     String
   content   String
   summary   String
-  userId    String
-  createdAt DateTime @default(now())     
-  updatedAt DateTime @updatedAt          
-  quizzes   Quiz[]                       
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  quizzes   Quiz[]
 }
 
 model Quiz {
-  id        String   @id @default(cuid()) 
+  id        String   @id @default(cuid())
   question  String
   options   String[]
   answer    String
-  
   articleId String
-  article   Article  @relation(fields: [articleId], references: [id]) 
-
+  article   Article  @relation(fields: [articleId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

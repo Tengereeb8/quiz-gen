@@ -51,7 +51,7 @@ export async function POST(req: Request) {
         title,
         content,
         summary,
-        userId: "temp-user-id",
+        // userId: "temp-user-id",
       },
     });
     console.log("Saved to DB:", article.id); // 👈
