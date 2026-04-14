@@ -10,11 +10,12 @@ import { useRouter } from "next/navigation";
 export const QuizGenerator = () => {
   const [article, setArticle] = useState("");
   const [content, setContent] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const [summary, setSummary] = useState("");
   const router = useRouter();
 
   const getArticle = async () => {
+    setLoading(true);
     if (!content.trim()) return;
     try {
       const { id } = await createArticle(content, article);
@@ -22,6 +23,7 @@ export const QuizGenerator = () => {
     } catch (error) {
       console.error(error);
     }
+    setLoading(false);
   };
   const onChangeArticle = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -34,6 +36,8 @@ export const QuizGenerator = () => {
   ) => {
     setContent(event.target.value);
   };
+
+  const isButtonDisabled = !content.trim() || loading;
 
   console.log(article);
 
@@ -70,7 +74,14 @@ export const QuizGenerator = () => {
         />
       </div>
       <div className="flex mt-5 justify-end">
-        <Button className="bg-black text-white w-40 h-10 " onClick={getArticle}>
+        <Button
+          className={`bg-black text-white w-40 h-10 ${
+            isButtonDisabled
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[#18181B] hover:bg-gray-800"
+          }`}
+          onClick={getArticle}
+        >
           Generate Summary
         </Button>
       </div>
