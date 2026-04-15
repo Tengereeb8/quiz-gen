@@ -4,14 +4,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { FileText, SparklesIcon } from "lucide-react";
 import { useState, ChangeEvent } from "react";
-import { createArticle } from "../functions/createArticle";
 import { useRouter } from "next/navigation";
+import { createArticle } from "../api/articles/create-articles/route";
 
 export const QuizGenerator = () => {
   const [article, setArticle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
-  const [summary, setSummary] = useState("");
   const router = useRouter();
 
   const getArticle = async () => {
@@ -42,7 +41,7 @@ export const QuizGenerator = () => {
   console.log(article);
 
   return (
-    <div className="bg-white  mt-12  p-7 rounded-lg w-214 h-110.5">
+    <div className="bg-white  mt-12  p-7 rounded-lg w-214 h-fit">
       <h1 className=" flex gap-2 font-semibold text-2xl items-center">
         <SparklesIcon className="size-8" />
         Article Quiz Generator

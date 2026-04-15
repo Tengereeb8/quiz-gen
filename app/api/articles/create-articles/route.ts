@@ -1,68 +1,57 @@
-// // import { GoogleGenAI } from "@google/genai";
-
-// // export async function POST(req: Request) {
-// //   try {
-// //     const { content } = await req.json();
-
-// //     const ai = new GoogleGenAI({
-// //       apiKey: process.env.GEMINI_API_KEY!,
-// //     });
-
-// //     const response = await ai.models.generateContent({
-// //       model: "gemini-2.5-flash",
-// //       contents: `Please provide a concise summary of the following article: ${content}`,
-// //     });
-
-// //     const text =
-// //       response.candidates?.[0]?.content?.parts
-// //         ?.map((p) => p.text ?? "")
-// //         .join("") ?? "";
-
-// //     return Response.json({ result: text });
-// //   } catch (error) {
-// //     console.error(error);
-
-// //     return Response.json({ error: "Something went wrong" }, { status: 500 });
-// //   }
-// // }
-
-// import { prisma } from "../../lib/prisma";
+"use server";
 import { prisma } from "@/app/lib/prisma";
 import { GoogleGenAI } from "@google/genai";
 
-export async function POST(req: Request) {
-  try {
-    const { content, title } = await req.json();
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+export async function createArticle(content: string, title: string) {
+  const summaryResponse = await ai.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: `Please provide a concise summary of the following article: ${content}`,
+  });
 
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: `Please provide a concise summary of the following article: ${content}`,
-    });
+  const summary =
+    summaryResponse.candidates?.[0]?.content?.parts
+      ?.map((p) => p.text ?? "")
+      .join("") ?? "";
 
-    const summary =
-      response.candidates?.[0]?.content?.parts
-        ?.map((p) => p.text ?? "")
-        .join("") ?? "";
+  const quizResponse = await ai.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: `Generate 5 multiple choice questions based on this article: ${content}. Return the response in this exact JSON format:
+      [
+        {
+          "question": "Question text here",
+          "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
+          "answer": "0"
+        }
+      ]
+      Make sure the response is valid JSON and the answer is the index (0-3) of the correct option.`,
+  });
 
-    const article = await prisma.article.create({
-      data: {
-        title,
-        content,
-        summary,
-        // userId: "temp-user-id",
+  const raw =
+    quizResponse.candidates?.[0]?.content?.parts
+      ?.map((p) => p.text ?? "")
+      .join("") ?? "";
+
+  const cleaned = raw.replace(/```json|```/g, "").trim();
+  const quizzes = JSON.parse(cleaned);
+
+  const article = await prisma.article.create({
+    data: {
+      title,
+      content,
+      summary,
+      quizzes: {
+        create: quizzes.map(
+          (q: { question: string; options: string[]; answer: string }) => ({
+            question: q.question,
+            options: q.options,
+            answer: q.answer,
+          }),
+        ),
       },
-    });
-    console.log("Saved to DB:", article.id); // 👈
+    },
+  });
 
-    return Response.json({ id: article.id, summary });
-  } catch (error) {
-    return Response.json(
-      {
-        error: error instanceof Error ? error.message : "Something went wrong",
-      },
-      { status: 500 },
-    );
-  }
+  return { id: article.id };
 }

@@ -8,6 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Link from "next/link";
 
 export default async function SummaryPage({
   params,
@@ -52,8 +53,10 @@ export default async function SummaryPage({
             <AccordionContent>{article.content}</AccordionContent>
           </AccordionItem>
         </Accordion>
-        <div className="flex mt-5 justify-end">
-          <Button className="bg-black ">Take Quiz</Button>
+        <div className="flex mt-5 ">
+          <Link href={`/quiz/${id}`}>
+            <Button className="bg-black px-5 py-2.5">Take Quiz</Button>
+          </Link>
         </div>
       </div>
     </div>
