@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { FileText, SparklesIcon } from "lucide-react";
 import { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
-import { createArticle } from "../api/articles/create-articles/route";
+import { createArticle } from "../actions/article";
 
 const QuizGenerator = () => {
   const [article, setArticle] = useState("");

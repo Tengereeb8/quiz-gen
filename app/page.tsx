@@ -1,4 +1,4 @@
-import { QuizGenerator } from "./quiz-gen/page";
+import QuizGenerator from "./quiz-gen/page";
 
 export default function Home() {
   return (
