@@ -35,7 +35,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#e4e4e7]`}
         >
           <Show when="signed-out">
             <div className="flex justify-center items-center min-h-screen gap-4">
@@ -45,7 +45,6 @@ export default function RootLayout({
           </Show>
 
           <Show when="signed-in">
-            {/* STICKY NAVBAR */}
             <header className="fixed top-0 left-0 right-0 h-16 border-b bg-white flex justify-between items-center px-6 z-50">
               <div className="flex items-center gap-4">
                 <p className="font-bold">Quiz app</p>
@@ -53,10 +52,7 @@ export default function RootLayout({
               <UserButton />
             </header>
 
-            {/* MAIN CONTENT AREA */}
             <div className="pt-16">
-              {" "}
-              {/* Padding top to prevent content hiding under header */}
               <DashboardLayout>{children}</DashboardLayout>
             </div>
           </Show>
