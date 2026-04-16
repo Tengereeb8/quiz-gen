@@ -1,4 +1,3 @@
-// app/lib/actions.ts
 "use server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/app/lib/prisma";
@@ -13,7 +12,7 @@ export async function createArticle(content: string, title: string) {
   if (!userId) throw new Error("Unauthorized");
 
   const summaryResponse = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
+    model: "gemini-3-flash-preview",
     contents: `Please provide a concise summary of the following article: ${content}`,
   });
 
@@ -23,7 +22,7 @@ export async function createArticle(content: string, title: string) {
       .join("") ?? "";
 
   const quizResponse = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
+    model: "gemini-3-flash-preview",
     contents: `Generate 5 multiple choice questions based on this article: ${content}. Return the response in this exact JSON format:
       [
         {
