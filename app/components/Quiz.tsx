@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { SparklesIcon } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 type Quiz = {
@@ -47,7 +48,7 @@ const Quiz = ({ quizzes }: QuizProps) => {
 
   if (finished) {
     return (
-      <div className="mt-12 p-7 rounded-lg w-214 h-fit mx-auto">
+      <div className="mt-12 p-7 rounded-lg w-250 h-fit mx-auto">
         <h1 className="flex gap-2 font-semibold text-2xl items-center">
           <SparklesIcon className="size-8" />
           Quick test
@@ -68,13 +69,18 @@ const Quiz = ({ quizzes }: QuizProps) => {
           >
             Retry
           </Button>
+          <Link href={"/"}>
+            <Button className="bg-black text-white pl-2 ">
+              Save and Leave
+            </Button>
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="mt-12 p-7 rounded-lg w-214 h-fit mx-auto">
+    <div className="mt-12 p-7 rounded-lg w-fit h-fit mx-auto">
       <h1 className="flex gap-2 font-semibold text-2xl items-center">
         <SparklesIcon className="size-8" />
         Quick test
@@ -82,7 +88,7 @@ const Quiz = ({ quizzes }: QuizProps) => {
       <p className="pt-2 text-[#71717a] text-base pb-6">
         Take a quick test about your knowledge from your content
       </p>
-      <div className="bg-white w-144.5 p-7 rounded-lg">
+      <div className="bg-white w-214 p-7 rounded-lg">
         <h1 className="flex justify-between text-xl font-medium">
           {currentQuiz.question}
           <span className="text-[#71717a] text-base">
@@ -94,7 +100,7 @@ const Quiz = ({ quizzes }: QuizProps) => {
             const idx = String(i);
             let variant: "outline" | "default" = "outline";
             let className =
-              "w-full h-10 justify-start border border-[#e4e4e7] text-black bg-white";
+              "w-fit h-10 justify-start border border-[#e4e4e7] text-black bg-white";
 
             if (selected) {
               if (idx === currentQuiz.answer) {
@@ -118,11 +124,6 @@ const Quiz = ({ quizzes }: QuizProps) => {
         </div>
         {selected && (
           <div className="flex justify-between items-center mt-2">
-            <p className={isCorrect ? "text-green-600" : "text-red-500"}>
-              {isCorrect
-                ? "✅ Correct!"
-                : `❌ Correct answer: ${currentQuiz.options[Number(currentQuiz.answer)]}`}
-            </p>
             <Button className="bg-black text-white" onClick={handleNext}>
               {current + 1 >= quizzes.length ? "Finish" : "Next →"}
             </Button>

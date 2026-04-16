@@ -10,9 +10,13 @@ import {
 } from "@/components/ui/sidebar";
 import { prisma } from "../lib/prisma";
 import { ArticleDialog } from "./AritcleDialog";
+import { auth } from "@clerk/nextjs/server";
 
 export async function AppSidebar() {
+  const { userId } = await auth();
+
   const articles = await prisma.article.findMany({
+    where: { userId: userId! },
     orderBy: { createdAt: "desc" },
   });
 
