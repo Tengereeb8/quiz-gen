@@ -28,15 +28,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased font-inter`}
-      >
-        <ClerkProvider>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
           <Show when="signed-out">
             <div className="flex justify-center items-center min-h-screen gap-4">
               <SignInButton />
@@ -45,14 +45,23 @@ export default function RootLayout({
           </Show>
 
           <Show when="signed-in">
-            <div className="w-full h-14 flex justify-between items-center">
-              <p>Quiz app</p>
+            {/* STICKY NAVBAR */}
+            <header className="fixed top-0 left-0 right-0 h-16 border-b bg-white flex justify-between items-center px-6 z-50">
+              <div className="flex items-center gap-4">
+                <p className="font-bold">Quiz app</p>
+              </div>
               <UserButton />
+            </header>
+
+            {/* MAIN CONTENT AREA */}
+            <div className="pt-16">
+              {" "}
+              {/* Padding top to prevent content hiding under header */}
+              <DashboardLayout>{children}</DashboardLayout>
             </div>
-            <DashboardLayout children={children} />
           </Show>
-        </ClerkProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

@@ -54,7 +54,7 @@ const Quiz = ({ quizzes }: QuizProps) => {
           Quick test
         </h1>
         <div className="bg-white w-144.5 p-7 rounded-lg mt-6 text-center">
-          <h2 className="text-2xl font-bold">Quiz Complete! 🎉</h2>
+          <h2 className="text-2xl font-bold">Quiz Complete! </h2>
           <p className="text-[#71717a] mt-2 text-lg">
             You scored {score} out of {quizzes.length}
           </p>

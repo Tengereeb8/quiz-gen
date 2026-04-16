@@ -1,22 +1,23 @@
-import {
-  Sidebar,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "../components/AppSidebar";
 
 export default function DashboardLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <div className="bg-[#e4e4e7]">
-      <SidebarProvider className=" flex justify-center relative top-16">
-        <SidebarTrigger />
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full bg-[#e4e4e7]">
         <AppSidebar />
-        <main>{children}</main>
-      </SidebarProvider>
-    </div>
+
+        <main className="flex-1 p-6">
+          <div className="mb-4">
+            <SidebarTrigger />
+          </div>
+          {children}
+        </main>
+      </div>
+    </SidebarProvider>
   );
 }

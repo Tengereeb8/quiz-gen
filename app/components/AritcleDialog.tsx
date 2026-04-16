@@ -18,7 +18,10 @@ export function ArticleDialog({ title, summary }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost" className="w-full justify-start truncate">
+        <Button
+          variant="ghost"
+          className="w-full justify-start truncate text-base"
+        >
           {title}
         </Button>
       </DialogTrigger>

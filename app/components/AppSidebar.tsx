@@ -22,7 +22,7 @@ export async function AppSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader className="font-bold text-lg pl-4 pt-5.5">
+      <SidebarHeader className="font-bold text-lg pl-4 pt-22">
         History
       </SidebarHeader>
       <SidebarContent>
