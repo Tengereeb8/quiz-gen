@@ -7,7 +7,7 @@ import { useState, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { createArticle } from "../api/articles/create-articles/route";
 
-export const QuizGenerator = () => {
+const QuizGenerator = () => {
   const [article, setArticle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
@@ -87,3 +87,5 @@ export const QuizGenerator = () => {
     </div>
   );
 };
+
+export default QuizGenerator;
