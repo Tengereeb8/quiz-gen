@@ -32,7 +32,7 @@ const Quiz = ({ quizzes }: QuizProps) => {
   const isCorrect = selected === currentQuiz?.answer;
 
   const handleSelect = (index: string) => {
-    if (selected) return; // prevent changing answer
+    if (selected) return;
     setSelected(index);
     if (index === currentQuiz.answer) setScore((s) => s + 1);
   };
