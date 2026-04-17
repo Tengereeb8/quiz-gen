@@ -10,6 +10,7 @@ import {
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import DashboardLayout from "./dashboard/layout";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,7 +48,9 @@ export default function RootLayout({
           <Show when="signed-in">
             <header className="fixed top-0 left-0 right-0 h-16 border-b bg-white flex justify-between items-center px-6 z-50">
               <div className="flex items-center gap-4">
-                <p className="font-bold">Quiz app</p>
+                <Link href={"/"}>
+                  <p className="font-bold">Quiz app</p>
+                </Link>
               </div>
               <UserButton />
             </header>

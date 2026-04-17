@@ -11,7 +11,7 @@ export default async function QuizPage({
 
   const article = await prisma.article.findUnique({
     where: { id },
-    include: { quizzes: true }, // 👈 fetch quizzes
+    include: { quizzes: true },
   });
 
   if (!article) return notFound();
